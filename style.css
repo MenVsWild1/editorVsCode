@@ -1,0 +1,322 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    display: flex;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.file-panel {
+    width: 250px;
+    min-width: 180px;
+    background-color: #252526;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #333333;
+    padding-top: 10px;
+    overflow: hidden;
+    resize: horizontal;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px 10px 15px;
+    font-size: 14px;
+    color: #cccccc;
+    border-bottom: 1px solid #333333;
+    margin-bottom: 5px;
+    flex-shrink: 0;
+}
+
+.panel-buttons button {
+    background: none;
+    border: none;
+    color: #cccccc;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 2px 5px;
+    margin-left: 5px;
+    line-height: 1;
+}
+
+.panel-buttons button:hover {
+    color: #fff;
+    background-color: #3c3c3c;
+    border-radius: 3px;
+}
+
+.file-tree {
+    list-style: none;
+    padding: 5px 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 0;
+}
+
+.file-tree li {
+    padding: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    font-size: 14px;
+}
+.file-tree li.editing .item-content {
+    padding-left: 5px; /* Adjust padding for input */
+}
+
+
+.file-tree li.drag-over > .item-content {
+    background-color: rgba(0, 122, 204, 0.3);
+}
+
+
+.file-tree .item-content {
+    display: flex;
+    align-items: center;
+    padding: 4px 10px 4px 15px;
+    position: relative;
+}
+
+
+.file-tree li.active > .item-content {
+    background-color: #094771;
+    color: #fff;
+}
+.file-tree li:not(.active):not(.editing) > .item-content:hover {
+    background-color: #37373d;
+}
+
+.file-tree .icon {
+    margin-right: 6px;
+    font-size: 16px;
+    width: 16px;
+    display: inline-block;
+    text-align: center;
+    position: absolute;
+    left: 15px;
+    font-family: sans-serif; /* Ensure consistent icon rendering */
+    line-height: 1; /* Ensure vertical alignment */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+.file-tree li.icon-html > .item-content > .icon::before { content: ' </> '; color: #e34c26; }
+.file-tree li.icon-css > .item-content > .icon::before { content: ' # '; color: #264de4; }
+.file-tree li.icon-js > .item-content > .icon::before { content: ' JS '; color: #f0db4f; font-weight: bold; font-size: 12px; vertical-align: middle;}
+.file-tree li.icon-json > .item-content > .icon::before { content: ' {} '; color: #f0db4f; }
+.file-tree li.icon-py > .item-content > .icon::before { content: ' 🐍 '; color: #3572A5; }
+.file-tree li.icon-txt > .item-content > .icon::before { content: ' 📝 '; color: #cccccc; }
+.file-tree li.file:not([class*='icon-']) > .item-content > .icon::before { content: ' 📄 '; color: #cccccc; } /* Default file */
+.file-tree li.folder > .item-content > .icon { display: none; } /* Hide icon span for folders */
+
+.file-tree .folder-toggle {
+    width: 10px;
+    display: inline-block;
+    margin-right: 5px;
+    transition: transform 0.1s ease-in-out;
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #cccccc;
+    font-size: 12px;
+}
+.file-tree li.folder.open > .item-content .folder-toggle {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.file-tree .item-name {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 20px;
+}
+.file-tree li.file > .item-content .item-name {
+     padding-left: 20px;
+}
+.file-tree li.folder > .item-content .item-name {
+     padding-left: 5px; /* Less padding if no icon needed */
+}
+
+
+.file-tree .delete-btn {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #cccccc;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 3px;
+    line-height: 1;
+}
+.file-tree li > .item-content:hover .delete-btn {
+    display: inline-block;
+}
+.file-tree li.active > .item-content .delete-btn {
+     display: inline-block;
+     color: #fff;
+}
+.file-tree .delete-btn:hover {
+    color: #f06060;
+}
+
+.file-tree ul {
+    list-style: none;
+    padding-left: 15px;
+}
+
+.folder > ul { display: none; }
+.folder.open > ul { display: block; }
+
+.run-button {
+    display: block;
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #0e639c;
+    color: #ffffff;
+    border: 1px solid #0e639c;
+    border-radius: 3px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.run-button:hover {
+    background-color: #1177bb;
+    border-color: #1177bb;
+}
+
+.main-panel {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.editor-panel {
+    flex-grow: 1;
+    height: 70%;
+    min-height: 100px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+}
+
+.console-panel {
+    height: 30%;
+    min-height: 50px;
+    background-color: #252526;
+    border-top: 1px solid #333333;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.console-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 13px;
+    color: #cccccc;
+    border-bottom: 1px solid #333333;
+    flex-shrink: 0;
+}
+
+.console-header button {
+    background: none;
+    border: none;
+    color: #cccccc;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 3px;
+}
+.console-header button:hover { color: #fff; }
+
+.console-output {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 8px 10px;
+    font-family: "Consolas", "Monaco", "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-all;
+    height: 0;
+}
+.console-output .log { color: #d4d4d4; }
+.console-output .error { color: #f48771; }
+.console-output .warn { color: #cca700; }
+.console-output .info { color: #3794ff; }
+.console-output div { margin-bottom: 4px; }
+
+.CodeMirror {
+    height: 100% !important;
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: "Consolas", "Monaco", "Courier New", monospace;
+    background-color: #1e1e1e;
+}
+.cm-s-material-darker.CodeMirror { background: #1e1e1e; }
+.CodeMirror-lint-marker-error, .CodeMirror-lint-marker-warning {
+    background-size: 14px 14px !important;
+    margin-left: 2px;
+}
+
+.name-input {
+    flex-grow: 1;
+    font-family: inherit;
+    font-size: inherit;
+    background-color: #3c3c3c;
+    color: #d4d4d4;
+    border: 1px solid #007acc;
+    padding: 1px 4px;
+    margin-left: 0; /* Remove default margin */
+    height: 20px; /* Match line height */
+    line-height: 18px;
+    outline: none;
+    margin-left: 5px; /* Space from icon/toggle */
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #252526; }
+::-webkit-scrollbar-thumb { background-color: #555555; border-radius: 2px; border: 2px solid #252526; }
+::-webkit-scrollbar-thumb:hover { background-color: #6a6a6a; }
+::-webkit-scrollbar-corner { background: #1e1e1e; }
+* { scrollbar-width: thin; scrollbar-color: #555555 #252526; }

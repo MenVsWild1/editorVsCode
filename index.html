@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Веб Редактор ПРО</title>
+    <!-- CodeMirror -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/theme/material-darker.min.css">
+    <!-- Linting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/lint/lint.min.css">
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="file-panel">
+            <div class="panel-header">
+                <span>Файлы</span>
+                <div class="panel-buttons">
+                    <button id="saveButton" title="Сохранить всё">💾</button>
+                    <button id="createFileBtn" title="Создать файл">📄</button>
+                    <button id="createFolderBtn" title="Создать папку">📁</button>
+                </div>
+            </div>
+            <ul id="fileTree" class="file-tree"></ul>
+            <button id="runButton" class="run-button">▶ Запустить </button>
+            <button id="runPythonBtn" class="run-button">🐍 Запустить Python</button>
+        </div>
+        <div class="main-panel">
+            <div class="editor-panel">
+                <div id="editor"></div>
+            </div>
+            <div class="console-panel">
+                <div class="console-header">
+                    <span>Консоль</span>
+                    <button id="clearConsoleBtn" title="Очистить консоль">🗑️</button>
+                </div>
+                <div id="consoleOutput" class="console-output"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CodeMirror Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.js"></script>
+    <!-- Modes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/python/python.min.js"></script>
+    <!-- Addons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/edit/closetag.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/edit/matchbrackets.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/edit/closebrackets.js"></script>
+    <!-- Linting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/lint/lint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/lint/javascript-lint.js"></script>
+    <!-- JSHint (for JS Linting) -->
+    <script src="https://unpkg.com/jshint@2.13.6/dist/jshint.js"></script>
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
